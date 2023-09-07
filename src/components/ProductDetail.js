@@ -50,5 +50,38 @@ export default function ProductDetail({ $target, initialState }) {
   };
   this.render();
 
+  // 옵션 추가 이벤트
+  $productDetail.addEventListener("change", (e) => {
+    // select 태그일 때,
+    if (e.target.tagName === "SELECT") {
+      const selectedOptionId = parseInt(e.target.value);
+      const { product, selectedOptions } = this.state;
+      // 현재 선택한 옵션
+      const option = product.productOptions.find(
+        (option) => option.id === selectedOptionId
+      );
+      // 이미 선택된 옵션인지 확인(중복방지)
+      const selectedOption = selectedOptions.find(
+        (selectedOption) => selectedOption.optionId === selectedOptionId
+      );
 
+      // 옵션 추가
+      if (option && !selectedOption) {
+        const nextSelectedOptions = [
+          ...selectedOptions,
+          {
+            productId: product.id,
+            optionId: option.id,
+            optionName: option.name,
+            optionPrice: option.price,
+            quantity: 1,
+          },
+        ];
+        this.setState({
+            ...this.state,
+            selectedOptions: nextSelectedOptions
+        })
+      }
+    }
+  });
 }

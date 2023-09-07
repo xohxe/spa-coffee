@@ -26,18 +26,56 @@ export default function SelectedOptions({ $target, initialState }) {
       $component.innerHTML = `
         <h3>선택된 상품</h3>
         <ul>
-        ${selectedOptions.map(
-          (selectedOption) =>
-            `<li>100개 번들 원
-         <div><input type="number" value="10">개</div>
+        ${selectedOptions
+          .map(
+            (selectedOption) =>
+              `<li> ${selectedOption.optionName} ${
+                product.price + selectedOption.optionPrice
+              }원
+         <div><input type="number"  data-optionId="${
+           selectedOption.optionId
+         }" value="${selectedOption.quantity}">개</div>
         </li>
         `
-        )}
+          )
+          .join("")}
         </ul> 
+        <div class="ProductDetail__totalPrice">${this.getTotalPrice()}원</div>
         <button class="OrderButton">주문하기</button>  
       `;
     }
   };
 
   this.render();
+
+  //상품 수량 변경 이벤트
+  $component.addEventListener("change", (e) => {
+    if (e.target.tagName === "INPUT") {
+      try {
+        const nextQuantity = parseInt(e.target.value);
+        const nextSelectedOptions = [...this.state.selectedOptions];
+
+        if (typeof nextQuantity === "number") {
+          const { product } = this.state;
+
+          const optionId = parseInt(e.target.dataset.optionid);
+          const option = product.productOptions.find(
+            (option) => option.id === optionId
+          );
+          const selectedOptionIndex = nextSelectedOptions.findIndex(
+            (selectedOption) => selectedOption.optionId === optionId
+          );
+          nextSelectedOptions[selectedOptionIndex].quantity =
+            option.stock >= nextQuantity ? nextQuantity : option.stock;
+
+          this.setState({
+            ...this.state,
+            selectedOptions: nextSelectedOptions,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  });
 }
