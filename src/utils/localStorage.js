@@ -1,21 +1,28 @@
-const localStorage = {
-	get(key) {
-		return JSON.parse(window.localStorage.getItem(key));
-	},
-	set(key, value) {
-		window.localStorage.setItem(key, JSON.stringify(value));
-	},
-	setWithExistingData(key, value) {
-		const existingData = this.get(key);
-		if (existingData == undefined) {
-			this.set(key, value);
-			return;
-		}
-		this.set(key, [...existingData, ...value]);
-	},
-	clear() {
-		window.localStorage.clear();
-	},
+export const storage = localStorage;
+
+export const getItem = (key, defaultValue) => {
+  try {
+    const value = storage.getItem(key);
+    // key에 해당하는 값이 있다면 parsing하고, 없으면 defaultValue 리턴
+    return value ? JSON.parse(value) : defaultValue;
+  } catch {
+    // parsing 하다 에러가 생기면 defaultValue 리턴
+    return defaultValue;
+  }
 };
 
-export default localStorage;
+export const setItem = (key, value) => {
+  try {
+    storage.setItem(key, JSON.stringify(value));
+  } catch {
+    // ignore
+  }
+};
+
+export const removeItem = (key) => {
+  try {
+    storage.removeItem(key);
+  } catch {
+    // ignore
+  }
+};

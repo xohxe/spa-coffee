@@ -7,6 +7,7 @@ export default function ProductDetail({ $target, initialState }) {
 
   this.state = initialState;
   let selectedOptions = null;
+  let isInitialized = false;
 
   this.setState = (nextState) => {
     this.state = nextState;
@@ -15,7 +16,7 @@ export default function ProductDetail({ $target, initialState }) {
 
   this.render = () => {
     const { product } = this.state;
-
+    
     $productDetail.innerHTML = `
     <img src="${product.imageUrl}">
     <div class="ProductDetail__info">
@@ -78,9 +79,9 @@ export default function ProductDetail({ $target, initialState }) {
           },
         ];
         this.setState({
-            ...this.state,
-            selectedOptions: nextSelectedOptions
-        })
+          ...this.state,
+          selectedOptions: nextSelectedOptions,
+        });
       }
     }
   });

@@ -1,3 +1,6 @@
+import { getItem, setItem } from "../utils/localStorage.js";
+import { routeChange } from "../utils/router.js";
+
 export default function SelectedOptions({ $target, initialState }) {
   const $component = document.createElement("div");
   $target.appendChild($component);
@@ -76,6 +79,26 @@ export default function SelectedOptions({ $target, initialState }) {
       } catch (e) {
         console.log(e);
       }
+    }
+  });
+
+  //주문하기 클릭 이벤트
+  $component.addEventListener("click", (e) => {
+    const { selectedOptions } = this.state;
+    if (e.target.className === "OrderButton") {
+      //   const cartData = [];
+      const cartData = getItem("products_cart", []);
+      setItem(
+        "products_cart",
+        cartData.concat(
+          selectedOptions.map((selectedOption) => ({
+            productId: selectedOption.productId,
+            optionId: selectedOption.optionId,
+            quantity: selectedOption.quantity,
+          }))
+        )
+      );
+      routeChange("/cart");
     }
   });
 }
