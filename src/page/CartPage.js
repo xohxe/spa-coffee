@@ -6,16 +6,14 @@ import Cart from "../components/Cart.js";
 export default function CartPage({ $target }) {
   const $page = document.createElement("div");
   $page.className = "CartPage";
-
   $page.innerHTML = "<h1>장바구니</h1>";
-
-  const cartData = getItem("products_cart", []);
+  let cartComponent = null;
 
   this.state = {
     products: null,
   };
-  let cartComponent = null;
 
+  const cartData = getItem("products_cart", []);
   this.setState = (nextState) => {
     this.state = nextState;
     this.render();
@@ -41,7 +39,9 @@ export default function CartPage({ $target }) {
     );
     this.setState({ products });
   };
+  
   this.fetchProducts();
+
   this.render = () => {
     if (cartData.length === 0) {
       alert("장바구니가 비었습니다.");

@@ -16,13 +16,12 @@ export default function Cart({ $target, initialState }) {
   this.getTotalPrice = () => {
     return this.state.reduce(
       (acc, option) =>
-        acc + ((option.productPrice + option.optionPrice) * option.quantity, 0)
+        acc + (option.productPrice + option.optionPrice) * option.quantity,
+      0
     );
   };
 
   this.render = () => {
-    //  const { product } = this.state;
-
     $component.innerHTML = `
     <ul>
         ${this.state.map(
@@ -36,11 +35,11 @@ export default function Cart({ $target, initialState }) {
         </li>
         `
         )}
-        <div class="Cart__totalPrice">총 상품가격 ${this.getTotalPrice()}원</div>
-        <button class="OrderButton">주문하기</button>
     </ul>
+    <div class="Cart__totalPrice">총 상품가격 ${this.getTotalPrice()}원</div>
+    <button class="OrderButton">주문하기</button>
     `;
-    //return $component
+    return $component;
   };
   this.render();
 
