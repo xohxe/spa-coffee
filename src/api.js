@@ -1,5 +1,6 @@
 const API_END_POINT =
-  "https://cors-anywhere.herokuapp.com/https://h6uc5l8b1g.execute-api.ap-northeast-2.amazonaws.com/dev";
+  "https://h6uc5l8b1g.execute-api.ap-northeast-2.amazonaws.com/dev";
+// local 에서는 https://cors-anywhere.herokuapp.com/ 추가
 
 export const request = async (url, options = {}) => {
   try {
